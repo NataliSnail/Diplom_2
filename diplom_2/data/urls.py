@@ -12,5 +12,4 @@ class TestCreatedUserAPI:
 
 class TestCreatedOrderAPI:
     CREATE_ORDER_URL = 'https://stellarburgers.nomoreparties.site/api/orders'
-    GET_ORDERS_USER_URL = 'https://stellarburgers.nomoreparties.site/api/orders'
     GET_INGREDIENT_URL ='https://stellarburgers.nomoreparties.site/api/ingredients'
