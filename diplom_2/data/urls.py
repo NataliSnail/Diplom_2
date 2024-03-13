@@ -5,9 +5,7 @@ class TestBaseLinksAPI:
 class TestCreatedUserAPI:
     CREATE_LOGIN_URL = 'https://stellarburgers.nomoreparties.site/api/auth/register'
     AUTH_LOGIN_URL = 'https://stellarburgers.nomoreparties.site/api/auth/login'
-    CHANGE_DATA_USER_URL = 'https://stellarburgers.nomoreparties.site/api/auth/user'
     DELETE_USER_URL = 'https://stellarburgers.nomoreparties.site/api/auth/user'
-    GET_DATA_USER_URL = 'https://stellarburgers.nomoreparties.site/api/auth/user'
 
 
 class TestCreatedOrderAPI:
