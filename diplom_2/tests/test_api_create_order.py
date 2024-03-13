@@ -8,6 +8,7 @@ from data.test_data import UserErrors,OrdersErrors
 from data.test_data import *
 
 
+
 class TestCreateOrderAPI:
     @allure.description('Тест создания заказа для авторизованного юзера + добавить ингредиенты| POST| CREATE_ORDER_URL')
     @allure.title('Успешное создание заказа')
@@ -41,18 +42,18 @@ class TestCreateOrderAPI:
 
 
 
-    @allure.description('Проверка получения заказов для авторизованного пользователя | GET | GET_ORDERS_USER_URL')
+    @allure.description('Проверка получения заказов для авторизованного пользователя | GET | CREATE_ORDER_URL')
     @allure.title('Успешное получение заказа')
     def test_check_get_order_auth_user(self,user_token):
         token = user_token
-        response = requests.get(TestCreatedOrderAPI.GET_ORDERS_USER_URL, headers={'Authorization': token})
+        response = requests.get(TestCreatedOrderAPI.CREATE_ORDER_URL, headers={'Authorization': token})
         assert response.status_code == 200
         assert response.json()['success'] == True
 
 
-    @allure.description('Проверка получения заказов для неавторизованного пользователя | GET | GET_ORDERS_USER_URL')
+    @allure.description('Проверка получения заказов для неавторизованного пользователя | GET | CREATE_ORDER_URL')
     @allure.title('Получение сообщения "You should be authorised"')
     def test_check_get_orders_without_auth(self):
-        response_get_order = requests.get(TestCreatedOrderAPI.GET_ORDERS_USER_URL)
+        response_get_order = requests.get(TestCreatedOrderAPI.CREATE_ORDER_URL)
         assert OrdersErrors.get_order__without_auth in response_get_order.text
         assert response_get_order.status_code == 401
