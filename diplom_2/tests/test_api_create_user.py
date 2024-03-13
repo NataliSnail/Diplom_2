@@ -5,6 +5,7 @@ from data.urls import TestCreatedUserAPI
 from data.test_data import User,UserErrors
 
 
+
 class TestCreateUserAPI:
     @allure.description('Регистрация уже существующего пользователя| POST | CREATE_LOGIN_URL')
     @allure.title('Сообщение- "пользователь уже существует", регистрация не пройдена.')
@@ -45,6 +46,8 @@ class TestCreateUserAPI:
         user_data = User.user_auth
         response = requests.post(TestCreatedUserAPI.AUTH_LOGIN_URL, data=user_data)
         assert response.status_code == 200
+        assert response.json()['success'] == True
+
 
 
     @allure.description('Авторизация пользователя с неверным логином и паролем| POST |AUTH_LOGIN_URL')
@@ -56,27 +59,25 @@ class TestCreateUserAPI:
         assert response.json()['message'] == UserErrors.incorrect_data
 
 
-    @allure.description('Изменение данных пользователя без авторизации| PATCH |CHANGE_DATA_USER_URL')
+    @allure.description('Изменение данных пользователя без авторизации| PATCH |DELETE_USER_URL')
     @allure.title('Сообщение об ошибке "You should be authorised"')
     @pytest.mark.parametrize('user_data', (User.create_email_user,User.create_password_user))
     def test_create_user_data_without_auth(self,user_data):
-        response = requests.patch(TestCreatedUserAPI.CHANGE_DATA_USER_URL, data=user_data)
+        response = requests.patch(TestCreatedUserAPI.DELETE_USER_URL, data=user_data)
         assert response.status_code == 401
         assert response.json()['message'] == UserErrors.change_data_without_auth
 
 
 
-    @allure.description('Изменение данных пользователя c авторизацией: изменить емеил| PATCH |CHANGE_DATA_USER_URL')
+    @allure.description('Изменение данных пользователя c авторизацией: изменить емеил| PATCH |DELETE_USER_URL')
     @allure.title('Успешное обновление емеил, пароля')
     @pytest.mark.parametrize('user_data', (User.create_password_user,User.create_email_user))
     def test_create_user_data_with_auth_update_data(self,user_token,user_data):
         token = user_token
         payload = user_data
-        response_create_data = requests.patch(TestCreatedUserAPI.CHANGE_DATA_USER_URL, headers={'Authorization': token},
+        response_create_data = requests.patch(TestCreatedUserAPI.DELETE_USER_URL, headers={'Authorization': token},
                                               data = payload)
         assert response_create_data.status_code == 200
         assert response_create_data.json().get("success") is True
-
-
 
 
